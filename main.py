@@ -47,7 +47,7 @@ def get_top5_embedding_rows(user_input):
     similarity_vector = np.array(similarity_vector)
     top5_indx = np.argpartition(similarity_vector, -5)[-5:]
     df = load_df()
-    return df.iloc[top5_indx]["text"]
+    return df.iloc[top5_indx]
 
 
 # create_embeddings()
