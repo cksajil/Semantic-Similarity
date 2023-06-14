@@ -57,4 +57,4 @@ text_in = st.text_input("Type review text here", "This is user input from NetFli
 
 if st.button("Predict") and text_in:
     result = get_top5_embedding_rows(text_in)
-    st.text(result)
+    st.dataframe(result)
