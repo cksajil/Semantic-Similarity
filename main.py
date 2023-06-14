@@ -57,8 +57,12 @@ def get_top5_embedding_rows(user_input):
 # create_embeddings()
 
 st.title("Semantic similarity")
-text_in = st.text_input("Type review text here", "This is user input from NetFlix")
+text_in = st.text_input(
+    "Type review text here", "This is user input from NetFlix"
+).lower()
 
 if st.button("Predict") and text_in:
     result = get_top5_embedding_rows(text_in)
+    result["text"] = result["text"].str.lower()
+    result = result.sort_values(by=["similarity"], ascending=False)
     st.dataframe(result)
