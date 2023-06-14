@@ -9,7 +9,7 @@ from sentence_transformers import SentenceTransformer
 
 def load_df():
     df_path = join("static", "df2.csv")
-    df = pd.read_csv(df_path).dropna()
+    df = pd.read_csv(df_path, index_col=False).dropna().iloc[:, 1:]
     return df
 
 
@@ -34,8 +34,10 @@ def load_embeddings():
 
 
 def get_top5_embedding_rows(user_input):
-    similarity_vector = []
+    df = load_df()
     model = SentenceTransformer("bert-base-nli-mean-tokens")
+    similarity_vector = []
+
     vect2 = model.encode(user_input)
     embd_matrix = load_embeddings()
 
@@ -46,7 +48,9 @@ def get_top5_embedding_rows(user_input):
 
     similarity_vector = np.array(similarity_vector)
     top5_indx = np.argpartition(similarity_vector, -5)[-5:]
-    df = load_df()
+
+    df["similarity"] = similarity_vector
+
     return df.iloc[top5_indx]
 
 
